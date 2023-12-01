@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="./index.css">
+    <link rel="stylesheet" href="./font_4268634_6z92whw61wo.css">
+    <link rel="stylesheet" href="./font_4355188_zzgq0r0eu6l.css">
+    <script src="./jquery.js"></script>
+</head>
+
+<body>
+    <div class="bix">
+        <audio id="mpshui" controls loop autoplay>
+            <source id="audioSource" src="" />
+        </audio>
+        <div class="box">
+            <p>小睡眠</p>
+            <div class="tu">
+                
+            </div>
+            <div class="size"></div>
+            <div class="tubiao"><i class="iconfont icon-zanting" id="bofang"></i></div>
+        </div>
+        <div class="qiehuan">
+            <ul>
+                <li>全部</li>
+                <li>雷雨</li>
+                <li>江湖</li>
+                <li>课堂</li>
+                <li>自然</li>
+                <li>ASMR</li>
+                <li>动物</li>
+                <li>旋律</li>
+                <li>脑波</li>
+                <li>生活</li>
+                <li>城市</li>
+                <li>宝宝</li>
+            </ul>
+        </div>
+        <div class="neir">
+
+        </div>
+        <div class="botton"></div>
+    </div>
+
+    <script>
+        let index = 0, moshi = 1
+        $(function () {
+            $("#bofang").click(bofun)
+        })
+        let data = [
+            {
+                Image: "icon-huo",
+                name: "红泥小炉",
+                names: "./老人と海 - ヨルシカ.mp3"
+
+
+            },
+            {
+                Image: "icon-shell",
+                name: "浪卷海贝",
+
+            },
+            {
+                Image: "icon-moonyueliang",
+                name: "夜虫叽叽",
+
+            },
+            {
+                Image: "icon-store",
+                name: "小卖部",
+
+            },
+
+        ]
+        $(function () {
+            html = ""
+            data.forEach((item, index) => {
+                html += `
+                <div class="yinpin"><div class="tubiaofun" data-index="${index}"><i class="iconfont ${item.Image}"></i></div><p class="ziti">${item.name}</p></div>
+                `
+                $(".neir").html(html)
+            })
+        })
+        function bofun() {
+            // 图标切换
+            $(this).toggleClass('icon-zanting icon-bofang')
+            // 点击播放暂停
+            if ($(this).hasClass('icon-bofang')) {
+                $('#mpshui')[0].pause()
+            } else {
+                $('#mpshui')[0].play()
+            }
+        }
+
+        $(function () {
+            $(".tubiaofun").on("click", function () {
+                var newFileName = data[index].names + ".mp3";
+                index = $(this).data("index");
+                console.log(index);
+                $("#audioSource").attr("src", "./" + newFileName);
+                // $("#mpshui")[0].load();
+                var asd = data[index].name
+                var image = data[index].Image
+                console.log(asd);
+                $(".size").html(asd)
+                $(".tu").html(image)
+            })
+
+        })
+    </script>
+</body>
+
+</html>
