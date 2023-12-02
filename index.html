@@ -7,7 +7,7 @@
     <title>Document</title>
     <link rel="stylesheet" href="./index.css">
     <link rel="stylesheet" href="./font_4268634_6z92whw61wo.css">
-    <link rel="stylesheet" href="./font_4355188_zzgq0r0eu6l.css">
+    <link rel="stylesheet" href="./font_4355188_h6xww1bu5l8.css">
     <script src="./jquery.js"></script>
 </head>
 
@@ -19,10 +19,13 @@
         <div class="box">
             <p>小睡眠</p>
             <div class="tu">
-                
+
             </div>
             <div class="size"></div>
             <div class="tubiao"><i class="iconfont icon-zanting" id="bofang"></i></div>
+            <div class="dintime">
+
+            </div>
         </div>
         <div class="qiehuan">
             <ul>
@@ -43,7 +46,9 @@
         <div class="neir">
 
         </div>
-        <div class="botton"></div>
+        <div class="botton">
+
+        </div>
     </div>
 
     <script>
@@ -62,21 +67,103 @@
             {
                 Image: "icon-shell",
                 name: "浪卷海贝",
+                names: "./动天 - 高梨康治 copy.mp3"
 
             },
             {
                 Image: "icon-moonyueliang",
                 name: "夜虫叽叽",
+                names: "./悪魔の子 - ヒグチアイ.mp3"
 
             },
             {
                 Image: "icon-store",
                 name: "小卖部",
+                names: "./RAVE - Dxrk ダーク.mp3"
 
             },
 
         ]
+        let sdq = [
+            {
+                image: "icon-huo",
+                bgcolor: "rgb(255, 115, 63)"
+            },
+            {
+                image: "icon-shell",
+                bgcolor: "#1677b3"
+            },
+            {
+                image: "icon-moonyueliang",
+                bgcolor: "#11659a"
+            },
+            {
+                image: "icon-store",
+                bgcolor: "#f28e16"
+            },
+        ]
+        // 时间
+        let timet = [
+            {
+                times: "5",
+                shi: 5000
+            },
+            {
+                times: "10",
+                shi: 10000
+            },
+            {
+                times: 20,
+                shi: 20000
+            },
+            {
+                times: 30,
+                shi: 30000
+            },
+            {
+                times: 40,
+                shi: 40000
+            },
+            {
+                times: "∞"
+            },
+        ]
+        // 底部图标
+        let ditu = [
+            {
+                image: "icon-xiayu",
+                name: "声音"
+            },
+            {
+                image: "icon-icon",
+                name: "助眠"
+            },
+            {
+                image: "icon-tongxinyuantu",
+                name: "呼吸"
+            },
+            {
+                image: "icon-jingxuan",
+                name: "精选"
+            },
+            {
+                image: "icon-wode",
+                name: "我的"
+            },
+        ]
         $(function () {
+            // 底部
+            html = ""
+            ditu.forEach((item, index) => {
+                html += `
+                <div class="diwo">
+                    <i class="iconfont ${item.image}"></i>
+                <div class="shimin">${item.name}</div>
+            </div>
+                `
+                $(".botton").html(html)
+            })
+            // 图片
             html = ""
             data.forEach((item, index) => {
                 html += `
@@ -84,9 +171,73 @@
                 `
                 $(".neir").html(html)
             })
+            // 音频
+            html = ""
+            sdq.forEach((item, index) => {
+                html += `
+                    <i class="iconfont ${item.image}" data-index="${index}"></i>
+                `
+                $(".tu").html(html)
+            })
+            // 时间
+            html = ""
+            timet.forEach((item, index) => {
+                html += `
+                <button id="ten" data-index="${index}">${item.times}</button>
+                `
+                $(".dintime").html(html)
+            })
+
+            $(function () {
+                $(".tubiaofun:first").trigger("click");
+            });
+
+            $(".dintime button").on("click", function () {
+                index = $(this).data("index");
+                console.log(index);
+                var shitime = timet[index].shi
+                console.log(shitime);
+                setTimeout(function () {
+                    $("#bofang").trigger("click");
+                }, shitime);
+                alert(shitime + "ms后停止播放")
+            })
+
+            $(".tubiaofun").on("click", function () {
+                index = $(this).data("index");
+                // console.log(index);
+                // 音频切换
+                var newFileName = data[index].names;
+                // console.log(newFileName);
+                $("#audioSource").attr("src", "./" + newFileName);
+                $("#mpshui")[0].load();
+                $("#bofang").removeClass('icon-bofang')
+                $("#bofang").addClass('icon-zanting')
+                // 切换名字
+                var asd = data[index].name
+                // console.log(asd);
+                $(".size").html(asd)
+            })
+            // 图片切换
+            $(".tubiaofun").on("click", function () {
+                index = $(this).data("index");
+                var image = sdq[index].image
+                var bgcolor = sdq[index].bgcolor
+                $(".tu").html(`<i class="iconfont ${image}"></i>`)
+                $(".box").css('background-color', bgcolor)
+            })
+            // 背景颜色切换
+            $(".tubiaofun").hover(function () {
+                index = $(this).data("index");
+                var bgcolor = sdq[index].bgcolor
+                $(this).css('background-color', bgcolor)
+            }, function () {
+                $(this).css('background-color', "")
+            })
+
         })
+        // 图标切换
         function bofun() {
-            // 图标切换
             $(this).toggleClass('icon-zanting icon-bofang')
             // 点击播放暂停
             if ($(this).hasClass('icon-bofang')) {
@@ -96,21 +247,6 @@
             }
         }
 
-        $(function () {
-            $(".tubiaofun").on("click", function () {
-                var newFileName = data[index].names + ".mp3";
-                index = $(this).data("index");
-                console.log(index);
-                $("#audioSource").attr("src", "./" + newFileName);
-                // $("#mpshui")[0].load();
-                var asd = data[index].name
-                var image = data[index].Image
-                console.log(asd);
-                $(".size").html(asd)
-                $(".tu").html(image)
-            })
-
-        })
     </script>
 </body>
 
